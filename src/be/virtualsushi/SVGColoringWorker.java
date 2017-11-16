@@ -21,8 +21,8 @@ import java.util.stream.Stream;
  */
 public class SVGColoringWorker {
 
-	private static String sourcefolder = "/Users/jefw/Documents/virtualsushi/projects/svgworker/svg_orig/";
-	private static String destfolder = "/Users/jefw/Documents/virtualsushi/projects/svgworker/svg_created/";
+	private static String sourcefolder = "/home/jefw/virtualsushi/svgworker/svg_orig/";
+	private static String destfolder = "/home/jefw/virtualsushi/svgworker/svg_created/";
 	private static String name = "";
 
 	private static int REFERENCE_DISTANCE = 20;

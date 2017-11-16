@@ -4,15 +4,14 @@ import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,8 +31,8 @@ import static be.virtualsushi.SVGUtils.transformElement;
  */
 public class SVGScaler {
 
-	private static String sourcefolder = "/Users/jefw/Documents/virtualsushi/projects/svgworker/svg_orig/";
-	private static String destfolder = "/Users/jefw/Documents/virtualsushi/projects/svgworker/svg_created/";
+	private static String sourcefolder = "/home/jefw/virtualsushi/svgworker/svg_orig/";
+	private static String destfolder = "/home/jefw/virtualsushi/svgworker/svg_created/";
 	private static String name = "";
 	private static int row = 0;
 	private static double resizer = 1;

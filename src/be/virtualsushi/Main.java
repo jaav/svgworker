@@ -1,26 +1,16 @@
 package be.virtualsushi;
 
-import org.w3c.dom.*;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 public class Main {
 
-	private static String destfolder = "/Users/jefw/Documents/virtualsushi/projects/svgworker/www/";
-	private static String sourcefolder = "/Users/jefw/Documents/virtualsushi/projects/svgworker/svg_created/";
+	private static String destfolder = "/home/jefw/virtualsushi/svgworker/www/";
+	private static String sourcefolder = "/home/jefw/virtualsushi/svgworker/svg_created/";
 
 	//For colour distance algorithm, check https://github.com/MatthewYork/Colours/blob/master/ColoursLibrary/src/com/mattyork/colours/Colour.java
 

@@ -1,0 +1,7 @@
+
+target/
+www/
+svg_created/
+svg_orig/
+
+\.idea/
