@@ -4,8 +4,8 @@ plugins:
       newlines: false
 #  - removeDoctype
 #  - removeXMLProcInst
-#  - removeComments
-#  - removeMetadata
+  - removeComments
+  - removeMetadata
 #  - removeTitle
 #  - removeDesc
 #  - removeUselessDefs

@@ -31,8 +31,8 @@ import static be.virtualsushi.SVGUtils.transformElement;
  */
 public class SVGScaler {
 
-	private static String sourcefolder = "/home/jefw/virtualsushi/svgworker/svg_orig/";
-	private static String destfolder = "/home/jefw/virtualsushi/svgworker/svg_created/";
+	private static String sourcefolder = "svg_orig/";
+	private static String destfolder = "svg_created/";
 	private static String name = "";
 	private static int row = 0;
 	private static double resizer = 1;
@@ -71,6 +71,8 @@ public class SVGScaler {
 
 	private void cleanSourceFile() {
 		try {
+			File test = new File(sourcefolder + name + "_cleaned.svg");
+			String p = test.getAbsolutePath();
 			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(sourcefolder + name + "_cleaned.svg")));
 			String uri = sourcefolder + name + "_prep.svg";
 			Stream<String> stream = Files.lines(Paths.get(uri));
@@ -530,7 +532,8 @@ public class SVGScaler {
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			stream.forEach(e -> {
 				try {
-					if (e.contains("<svg ")) {
+					if(toBeCleaned(e)){}
+					else if (e.contains("<svg ")) {
 						e = scaleDimensions(e);
 						e = scaleViewBox(e);
 						writer.append(addDimensions(e));
@@ -864,6 +867,11 @@ public class SVGScaler {
 			return buf.toString();
 		}
 		return parameters;
+	}
+
+	private boolean toBeCleaned(String e){
+		if(e.startsWith("<sodipodi")) return true;
+		return false;
 	}
 
 

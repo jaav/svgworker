@@ -21,8 +21,8 @@ import java.util.stream.Stream;
  */
 public class SVGColoringWorker {
 
-	private static String sourcefolder = "/home/jefw/virtualsushi/svgworker/svg_orig/";
-	private static String destfolder = "/home/jefw/virtualsushi/svgworker/svg_created/";
+	private static String sourcefolder = "svg_orig/";
+	private static String destfolder = "svg_created/";
 	private static String name = "";
 
 	private static int REFERENCE_DISTANCE = 20;
@@ -208,12 +208,13 @@ public class SVGColoringWorker {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (allColors.size() > 100) REFERENCE_DISTANCE = 8;
-		else if (allColors.size() > 80) REFERENCE_DISTANCE = 10;
-		else if (allColors.size() > 60) REFERENCE_DISTANCE = 12;
-		else if (allColors.size() > 40) REFERENCE_DISTANCE = 14;
-		else if (allColors.size() > 20) REFERENCE_DISTANCE = 16;
-		else if (allColors.size() > 10) REFERENCE_DISTANCE = 18;
+		if (allColors.size() > 100) REFERENCE_DISTANCE = 40;
+		else if (allColors.size() > 80) REFERENCE_DISTANCE = 36;
+		else if (allColors.size() > 60) REFERENCE_DISTANCE = 32;
+		else if (allColors.size() > 40) REFERENCE_DISTANCE = 28;
+		else if (allColors.size() > 20) REFERENCE_DISTANCE = 24;
+		else if (allColors.size() > 10) REFERENCE_DISTANCE = 20;
+		else if (allColors.size() <= 5) REFERENCE_DISTANCE = 16;
 	}
 
 	private void matchColors() {
@@ -264,6 +265,20 @@ public class SVGColoringWorker {
 				TinaColor current = tinaColors.get(aColor);
 				brightnessSum += current.getBrightness();
 			}
+			//calculate the brightest of all brightnesses
+			int brightest = 0;
+			String brightestId = null;
+			for (String aColor : matchingColor) {
+				TinaColor current = tinaColors.get(aColor);
+				if(current.getBrightness()>brightest){
+					brightest = current.getBrightness();
+					brightestId = current.getColor();
+				}
+			}
+
+			//@TODO the 'mean' should be replaced by the 'clearest' which is the one with the highest brightness value
+			//@TODO calculate the relative brightness relative to the brightest and NOT relative to the mean
+
 			int mean = brightnessSum / matchingColor.size();
 			//find the tina whose brightness value is closest to the mean and point this tina as the median
 			int brightnessDiff = 1000;
@@ -277,9 +292,13 @@ public class SVGColoringWorker {
 			}
 
 			//now calculate the relative brightnesses
-			for (String aColor : matchingColor) {
+			/*for (String aColor : matchingColor) {
 				TinaColor current = tinaColors.get(aColor);
 				current.setRelativeBrightness(calculateRelativeBrightness(current.getBrightness(), tinaColors.get(medianId).getBrightness(), medianId));
+			}*/
+			for (String aColor : matchingColor) {
+				TinaColor current = tinaColors.get(aColor);
+				current.setRelativeBrightness(calculateRelativeBrightness(current.getBrightness(), tinaColors.get(brightestId).getBrightness(), brightestId));
 			}
 		}
 	}
@@ -393,7 +412,7 @@ public class SVGColoringWorker {
 		try {
 			String[] gradients = new String[1];
 			int[] stopCounter = {0};
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(destfolder + name + "_full_grads_5.svg")));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(destfolder + name + "_final.svg")));
 			String uri = destfolder + name + "_all_grads_4.svg";
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			stream.forEach(e -> {
@@ -405,9 +424,9 @@ public class SVGColoringWorker {
 						if (simpleColor != null) {
 							TinaColor currentColor = tinaColors.get(simpleColor.substring(1));
 							if (currentColor != null) {
-								e = e.replace("<stop ", "<stop data-target=\"" + currentColor.getRelativeBrightness() + "\" ");
+								e = e.replace("<stop ", "<stop data-target=\"" + ((float)(currentColor.getRelativeBrightness()))/100 + "\" ");
 								if (stopCounter[0] == 0) {
-									writer.append(gradients[0].replaceAll("id=", "class=\"color_" + currentColor.getMatchSet() + " " + "yellowOrBlue" + "\" id="));
+									writer.append(gradients[0].replaceAll("id=", "class=\"color" + currentColor.getMatchSet() + " \" id="));
 									writer.append(System.lineSeparator());
 								}
 							} else {

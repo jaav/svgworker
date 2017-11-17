@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 
 public class Main {
 
-	private static String destfolder = "/home/jefw/virtualsushi/svgworker/www/";
-	private static String sourcefolder = "/home/jefw/virtualsushi/svgworker/svg_created/";
+	private static String destfolder = "www/";
+	private static String sourcefolder = "svg_created/";
 
 	//For colour distance algorithm, check https://github.com/MatthewYork/Colours/blob/master/ColoursLibrary/src/com/mattyork/colours/Colour.java
 
@@ -70,7 +70,7 @@ public class Main {
 		try {
 			StringWriter sw = new StringWriter();
 			BufferedWriter writer = new BufferedWriter(sw);
-			String uri = sourcefolder + name + "_full_grads_5.svg";
+			String uri = sourcefolder + name + "_final.svg";
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			boolean[] inSVG = {false};
 			stream.forEach(e -> {
