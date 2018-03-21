@@ -44,9 +44,29 @@ public class SVGScaler {
 	private static final int HORIZONTAL = 0;
 	private static final int VERTICAL = 1;
 
+	private boolean absolute = false;
+
+	public SVGScaler(boolean absolute) {
+		this.absolute = absolute;
+	}
+
 	public static void main(String[] args) {
-		SVGScaler scaler = new SVGScaler();
+		SVGScaler scaler = new SVGScaler(false);
 		scaler.start(args[0]);
+	}
+
+	public void cleanup(String name){
+		deleteFile(name, "_cleaned.svg");
+		deleteFile(name, "_prep.svg");
+		deleteFile(name, "_cleaned_split.svg");
+		deleteFile(name, "_cleaned_units.svg");
+		deleteFile(name, "_cleaned_absolute.svg");
+		deleteFile(name, "_cleaned_cropped.svg");
+	}
+
+	private void deleteFile(String name, String extension){
+		File aFile = new File(sourcefolder + name + extension);
+		if(aFile!=null) aFile.delete();
 	}
 
 	public void start(String name) {
@@ -62,7 +82,8 @@ public class SVGScaler {
 		//add 'px' units where necessary
 		setUnits();
 		//Set absolute values
-		setAbsolutePath();
+		if(!absolute)
+			setAbsolutePath();
 		//Discover left, right, top bottom edges
 		autocrop();
 		//Auto crop image
@@ -159,6 +180,9 @@ public class SVGScaler {
 		int counter = 0;
 		for (String number : numbers) {
 
+			if(number.matches("\\d+"))
+				number = number+".000";
+
 			if(number.matches("[a-zA-Z]")) {
 				sb.append(number).append(" ");
 				currentMethod = number;
@@ -242,6 +266,7 @@ public class SVGScaler {
 	}
 
 	private void setAbsolutePath() {
+		//Conversion to scientific notation happens here!!!!
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(sourcefolder + name + "_cleaned_absolute.svg")));
 			String uri = sourcefolder + name + "_cleaned_units.svg";
@@ -250,7 +275,8 @@ public class SVGScaler {
 				try {
 					if (e.contains("<path ")) {
 						System.out.println("SPLITTING NUMBERS IN e = " + e);
-						writer.append(doSetAbsolute(e));
+						String newPath = doSetAbsolute(e);
+						writer.append(newPath);
 						writer.append(System.lineSeparator());
 						row++;
 					} else {
@@ -282,7 +308,10 @@ public class SVGScaler {
 			System.out.println("method = " + method);
 			String[] coordinates = methodSplitMatcher.group(2).replaceAll("(\\d), ([-\\d])","$1,$2").split(" ");
 			System.out.println(Arrays.toString(coordinates));
+			//Lowercase indicates a relative path
 			if (method.matches("[a-z]")) {
+				if(refX == null) refX = "0";
+				if(refY == null) refY = "0";
 				sb.append(method.toUpperCase());
 				for (int i = 0; i < coordinates.length; i++) {
 					String coordinate = coordinates[i];
@@ -323,6 +352,7 @@ public class SVGScaler {
 		return s.replace(dSubstring, sb.toString());
 	}
 
+	//THIS IS WHERE THE SCIENTIFIC NOTATION IS ADDED
 	private String absolify(String method, String coordinates, String refX, String refY) {
 		float fRefX = Float.parseFloat(refX);
 		float fRefY = Float.parseFloat(refY);
@@ -332,11 +362,15 @@ public class SVGScaler {
 			return "" + (fRefY + Float.parseFloat(coordinates));
 		float coordX = Float.parseFloat(coordinates.substring(0, coordinates.indexOf(",")));
 		float coordY = Float.parseFloat(coordinates.substring(coordinates.indexOf(",") + 1));
-		return (fRefX + coordX) + "," + (fRefY + coordY);
+		if(Math.abs(coordX)<2 || Math.abs(coordY)<2) {
+			String test = method;
+		}
+		String newCoordinates = (fRefX + coordX<1?0:fRefX + coordX) + "," + (fRefY + coordY<1?0:fRefY + coordY);
+		return newCoordinates;
 	}
 
 	private void autocrop() {
-		String uri = sourcefolder + name + "_cleaned_absolute.svg";
+		String uri = absolute ? sourcefolder + name + "_cleaned_units.svg" : sourcefolder + name + "_cleaned_absolute.svg";
 		setMinMaxes(uri);
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(sourcefolder + name + "_cleaned_cropped.svg")));
@@ -399,7 +433,7 @@ public class SVGScaler {
 					while (methodSplitMatcher.find()) {
 						String method = methodSplitMatcher.group(1);
 						System.out.println("method = " + method + methodSplitMatcher.group(2));
-						if (!"H".equals(method) && !"V".equals(method) && !"A".equals(method)) {
+						if (!"H".equals(method) && !"V".equals(method) && !"A".equals(method) && !"Z".equals(method) && !"z".equals(method)) {
 							String[] coordinates = methodSplitMatcher.group(2).trim().replaceAll("(\\d), (\\d)", "$1,$2").split(" ");
 
 							for (String coordinate : coordinates) {
@@ -543,6 +577,10 @@ public class SVGScaler {
 						writer.append(scaleNumbers(e));
 						writer.append(System.lineSeparator());
 						row++;
+					} else if (e.contains("<polygon ")) {
+						writer.append(scalePolygon(e));
+						writer.append(System.lineSeparator());
+						row++;
 					} else if (e.contains("<g ")) {
 						writer.append(scaleTransformations(e));
 						writer.append(System.lineSeparator());
@@ -667,6 +705,19 @@ public class SVGScaler {
 		return s.replace(dSubstring, sb.toString());
 	}
 
+
+
+	private String scalePolygon(String s) {
+		Pattern pattern = Pattern.compile("([0-9]+\\.[0-9]+)");//([0-9\\.]*)
+		Matcher matcher = pattern.matcher(s);
+		while (matcher.find()) {
+			String s_number = matcher.group(1);
+			s = s.replaceAll(s_number, multiply(s_number, false));
+		}
+		System.out.println("(Polygon) s in svg block = " + s);
+		return s;
+	}
+
 	//<g transform="translate(991.092 13.963)" id="g2326">
 	private String scaleTransformations(String s) {
 		Pattern pattern = Pattern.compile("([0-9]+)\\.([0-9]+)");//([0-9\\.]*)
@@ -714,7 +765,7 @@ public class SVGScaler {
 		return s;
 	}
 
-	private String scaleGradients(String s) {
+	/*private String scaleGradients(String s) {
 		s = scaleGradientTransform(s);
 		Pattern pattern = Pattern.compile("\"\\-?([0-9\\.]+)\"");//([0-9\\.]*)
 		Matcher matcher = pattern.matcher(s);
@@ -723,6 +774,61 @@ public class SVGScaler {
 			s = s.replaceAll(s_number, multiply(s_number, false));
 			System.out.println("(scaleGradients) s in svg block = " + s);
 		}
+		return s;
+	}*/
+
+	private String scaleGradients(String s) {
+		s = scaleGradientTransform(s);
+		Pattern pattern = Pattern.compile("([xy][12])=\"(\\-?[0-9\\.]+)\"");//([0-9\\.]*)
+		Matcher matcher = pattern.matcher(s);
+		double[] exes = new double[2];
+		double[] wys = new double[2];
+		while (matcher.find()) {
+			String coord = matcher.group(1);
+			String s_number = matcher.group(2);
+
+			double number = Double.parseDouble(s_number);
+			if("x1".equals(coord)) exes[0] = number;
+			else if("x2".equals(coord)) exes[1] = number;
+			else if("y1".equals(coord)) wys[0] = number;
+			else if("y2".equals(coord)) wys[1] = number;
+		}
+		String x1, x2, y1, y2;
+		if(areNumbersClose(exes[0], exes[1])){
+			x1 = "x1=\"50%\"";
+			x2 = "x2=\"50%\"";
+		}
+		else{
+			if(exes[0]<exes[1]){
+				x1 = "x1=\"0%\"";
+				x2 = "x2=\"100%\"";
+			}
+			else{
+				x1 = "x1=\"100%\"";
+				x2 = "x2=\"0%\"";
+			}
+		}
+		if(areNumbersClose(wys[0], wys[1])){
+			y1 = "y1=\"50%\"";
+			y2 = "y2=\"50%\"";
+		}
+		else{
+			if(wys[0]<wys[1]){
+				y1 = "y1=\"0%\"";
+				y2 = "y2=\"100%\"";
+			}
+			else{
+				y1 = "y1=\"100%\"";
+				y2 = "y2=\"0%\"";
+			}
+		}
+
+		s = s.replaceAll("[xy][12]=\"\\-?[0-9\\.]+\"", "");
+		s = s.replaceAll(">$", "");
+		s = s.replaceAll("gradientUnits=\"userSpaceOnUse\"\\s*", "");
+		
+		s = String.format("%s %s %s %s %s %s", s, x1, x2, y1, y2, ">");
+		System.out.println("(scaleGradients) s in svg block = " + s);
 		return s;
 	}
 
@@ -839,6 +945,12 @@ public class SVGScaler {
 		else return "";
 	}
 
+	private String getPointsPart(String line) {
+		if(line.indexOf(" points=\"")>0)
+			return line.substring(line.indexOf(" points=\"") + 4, line.indexOf("\"", line.indexOf(" points=\"") + 4));
+		else return "";
+	}
+
 
 	private String applyScale(String attributeKey, String widthKey, String heightKey, String size, float widthScaleFactor, float heightScaleFactor) {
 		if (attributeKey.indexOf(widthKey) == 0)
@@ -871,6 +983,12 @@ public class SVGScaler {
 
 	private boolean toBeCleaned(String e){
 		if(e.startsWith("<sodipodi")) return true;
+		return false;
+	}
+	
+	private boolean areNumbersClose(double first, double second){
+		double test = Math.abs((first+second)/(first-second));
+		if(Math.abs((first+second)/(first-second)) > 20) return true;
 		return false;
 	}
 

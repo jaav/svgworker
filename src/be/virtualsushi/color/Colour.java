@@ -360,10 +360,10 @@ public class Colour extends Color {
 
 	public static boolean isClose(String color1, String color2, int REFERENCE_DISTANCE) {
 		//grey colors can only be close to other grey colors
-		if ((isGrey(color1) && !isGrey(color2)) || (!isGrey(color1) && isGrey(color2)))
+		/*if ((isGrey(color1) && !isGrey(color2)) || (!isGrey(color1) && isGrey(color2)))
 			return false;
 		if (isGrey(color1) && isGrey(color2))
-			return true;
+			return true;*/
 		double distance = Colour.distanceBetweenColorsWithFormula(
 				Colour.fromHex(color1),
 				Colour.fromHex(color2),

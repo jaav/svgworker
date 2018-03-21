@@ -21,11 +21,13 @@ import java.util.stream.Stream;
  */
 public class SVGColoringWorker {
 
-	private static String sourcefolder = "svg_orig/";
-	private static String destfolder = "svg_created/";
+	//private static String sourcefolder = "svg_orig/";
+	//private static String destfolder = "svg_created/";
 	private static String name = "";
+	private static String gender = "";
+	private static String folder = "";
 
-	private static int REFERENCE_DISTANCE = 20;
+	//private static int REFERENCE_DISTANCE = 20;
 	private static final int VERTICAL = 0;
 	private static final int HORIZONTAL = 1;
 
@@ -34,16 +36,27 @@ public class SVGColoringWorker {
 	private List<Set<String>> matchingColors;
 	private Map<String, TinaColor> tinaColors;
 
-	public static void main(String[] args) {
+	private int reference_distance;
+	private String coloringMethod;
+
+
+	public SVGColoringWorker(int reference_distance, String coloringMethod) {
+		this.reference_distance = reference_distance;
+		this.coloringMethod = coloringMethod;
+	}
+
+	/*public static void main(String[] args) {
 		SVGColoringWorker worker = new SVGColoringWorker();
 		worker.start(args[0]);
 
 
 		System.out.println("test.size() = " + worker.allColors.size());
-	}
+	}*/
 
-	public void start(String name) {
+	public void start(String folder, String gender, String name) {
 		this.name = name;
+		this.gender = gender;
+		this.folder = folder;
 		doStart();
 	}
 
@@ -64,8 +77,8 @@ public class SVGColoringWorker {
 		int[] stopCounter = {0};
 		String[] lastStop = new String[1];
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(destfolder + name + "_norgb_1.svg")));
-			String uri = destfolder + name + ".svg";
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(String.format("%s%s/%s%s",folder, gender, name, "_norgb_1.svg"))));
+			String uri = String.format("%s%s/%s%s",folder, gender, name, ".svg");
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			stream.forEach(e -> {
 				try {
@@ -107,8 +120,8 @@ public class SVGColoringWorker {
 		int[] stopCounter = {0};
 		String[] lastStop = new String[1];
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(destfolder + name + "_nostyle_2.svg")));
-			String uri = destfolder + name + "_norgb_1.svg";
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(String.format("%s%s/%s%s",folder, gender, name, "_nostyle_2.svg"))));
+			String uri = String.format("%s%s/%s%s",folder, gender, name, "_norgb_1.svg");
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			stream.forEach(e -> {
 				try {
@@ -146,35 +159,67 @@ public class SVGColoringWorker {
 	}
 
 	private void simplifyGradients() {
-		int[] stopCounter = {0};
+		//int[] stopCounter = {0};
 		String[] lastStop = new String[1];
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(destfolder + name + "_coloured_3.svg")));
-			String uri = destfolder + name + "_nostyle_2.svg";
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(String.format("%s%s/%s%s",folder, gender, name, "_coloured_3.svg"))));
+			String uri = String.format("%s%s/%s%s",folder, gender, name, "_nostyle_2.svg");
 			Stream<String> stream = Files.lines(Paths.get(uri));
+			String[] gradientLine = new String[1];
+			String[] darkest = new String[1];
+			String[] brightest = new String[1];
+			String[] darkestLine = new String[1];
+			String[] brightestLine = new String[1];
 			stream.forEach(e -> {
 				try {
-					boolean inGradient = false;
-
 					if (e.contains("<linearGradient ")|| e.contains("<radialGradient ")) {
-						inGradient = true;
-						writer.append(e);
-						writer.append(System.lineSeparator());
+						gradientLine[0] = e;
 					} else if (e.contains("<stop ")) {
-						if (stopCounter[0] == 0) {
+						String currentColor = findColor(e);
+						if(isDarker(currentColor, darkest[0])){
+							darkest[0] = currentColor;
+							darkestLine[0] = e;
+						}
+						if(isBrighter(currentColor, brightest[0])){
+							brightest[0] = currentColor;
+							brightestLine[0] = e;
+						}
+
+						/*if (stopCounter[0] == 0) {
 							writer.append(e.replaceAll("(offset=\"[0-9\\.e-]+\")", "offset=\"0\"")
 									.replaceAll("style=\"stop-color:\\s*#([0-9a-fA-F]{6});?\\s*([^\"]*)", "stop-color=\"#$1\" style=\"$2"));
 							writer.append(System.lineSeparator());
 						} else {
 							lastStop[0] = e.replaceAll("style=\"stop-color:\\s*#([0-9a-fA-F]{6});?\\s*([^\"]*)", "stop-color=\"#$1\" style=\"$2");
-						}
-						stopCounter[0]++;
+						}*/
+						//stopCounter[0]++;
 					} else if (e.contains("</linearGradient") || e.contains("</radialGradient")) {
-						writer.append(lastStop[0].replaceAll("(offset=\"[0-9\\.]+\")", "offset=\"1\""));
+						double darkStop = findOffset(darkestLine[0]);
+						double brightStop = findOffset(brightestLine[0]);
+						writer.append(gradientLine[0]);
+						writer.append(System.lineSeparator());
+						if(darkStop>brightStop){
+							writer.append(String.format("<stop offset=\"0\" stop-color=\"#%s\" />", brightest));
+							writer.append(System.lineSeparator());
+							writer.append(String.format("<stop offset=\"1\" stop-color=\"#%s\" />", darkest));
+						}
+						else{
+							writer.append(String.format("<stop offset=\"0\" stop-color=\"#%s\" />", darkest));
+							writer.append(System.lineSeparator());
+							writer.append(String.format("<stop offset=\"1\" stop-color=\"#%s\" />", brightest));
+						}
+
+
+						//writer.append(lastStop[0].replaceAll("(offset=\"[0-9\\.]+\")", "offset=\"1\""));
 						writer.append(System.lineSeparator());
 						writer.append(e);
 						writer.append(System.lineSeparator());
-						stopCounter[0] = 0;
+						//stopCounter[0] = 0;
+						darkest[0] = null;
+						brightest[0] = null;
+						darkestLine[0]= null;
+						brightestLine[0] = null;
+						gradientLine[0] = null;
 					} else {
 						writer.append(e);
 						writer.append(System.lineSeparator());
@@ -192,9 +237,23 @@ public class SVGColoringWorker {
 		}
 	}
 
+	private boolean isBrighter(String color, String brightestColor){
+		if(brightestColor==null) return true;
+		if(Colour.getBrightness(color) > Colour.getBrightness(brightestColor))
+			System.out.println(color+" is brighter then"+brightestColor);
+		return Colour.getBrightness(color) > Colour.getBrightness(brightestColor);
+	}
+
+	private boolean isDarker(String color, String darkestColor){
+		if(darkestColor==null) return true;
+		if(Colour.getBrightness(color) < Colour.getBrightness(darkestColor))
+			System.out.println(color+" is darker then"+darkestColor);
+		return Colour.getBrightness(color) < Colour.getBrightness(darkestColor);
+	}
+
 	private void findAllColors() {
 		try {
-			String uri = destfolder + name + "_coloured_3.svg";
+			String uri = String.format("%s%s/%s%s",folder, gender, name, "_coloured_3.svg");
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			stream.forEach(e -> {
 				try {
@@ -208,15 +267,19 @@ public class SVGColoringWorker {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (allColors.size() > 100) REFERENCE_DISTANCE = 40;
+
+		/*if (allColors.size() > 100) REFERENCE_DISTANCE = 40;
 		else if (allColors.size() > 80) REFERENCE_DISTANCE = 36;
 		else if (allColors.size() > 60) REFERENCE_DISTANCE = 32;
 		else if (allColors.size() > 40) REFERENCE_DISTANCE = 28;
 		else if (allColors.size() > 20) REFERENCE_DISTANCE = 24;
-		else if (allColors.size() > 10) REFERENCE_DISTANCE = 20;
-		else if (allColors.size() <= 5) REFERENCE_DISTANCE = 16;
+		else
+			REFERENCE_DISTANCE = 20;*/
+		/*else if (allColors.size() > 10) REFERENCE_DISTANCE = 20;
+		else if (allColors.size() <= 5) REFERENCE_DISTANCE = 16;*/
 	}
 
+	//Create a container with very different colors (depends on the color distance)
 	private void matchColors() {
 		matchingColors = new ArrayList<>();
 		for (String aColor : allColors) {
@@ -235,10 +298,11 @@ public class SVGColoringWorker {
 		}
 	}
 
+	//Add aColor to the container if it's very different from the container's main color(s)
 	private void addMatchersToContainer(String aColor, Set<String> container) {
 		for (String newColor : allColors) {
 			if (remainingColors.contains(newColor)) {
-				if (Colour.isClose(aColor, newColor, REFERENCE_DISTANCE)) {
+				if (Colour.isClose(aColor, newColor, this.reference_distance)) {
 					remainingColors.remove(newColor);
 					addMatchersToContainer(newColor, container);
 					container.add(newColor);
@@ -249,59 +313,107 @@ public class SVGColoringWorker {
 
 	private void makeTinaColors() {
 		tinaColors = new HashMap<>();
+
+		List<TinaColor> orderedTinaColors = new ArrayList<>();
 		for (Set<String> matchingColor : matchingColors) {
-			Map<String, Integer> brightnesses = new HashMap<>();
+			//Map<String, Integer> brightnesses = new HashMap<>();
 			for (String aColor : matchingColor) {
 				TinaColor tinaColor = new TinaColor();
 				tinaColor.setColor(aColor);
 				tinaColor.setMatchSet(getMatchSet(aColor));
 				tinaColor.setBrightness(Colour.getBrightness(aColor));
-				tinaColors.put(aColor, tinaColor);
-				brightnesses.put(aColor, tinaColor.getBrightness());
+				TinaColor tinaColor2 = new TinaColor();
+				tinaColor2.setColor(aColor);
+				tinaColor2.setMatchSet(getMatchSet(aColor));
+				tinaColor2.setBrightness(Colour.getBrightness(aColor));
+				orderedTinaColors.add(tinaColor);
+				tinaColors.put(tinaColor.getColor(), tinaColor);
+				//brightnesses.put(aColor, tinaColor.getBrightness());
 			}
-			//calculate the mean of all brightnesses
-			int brightnessSum = 0;
-			for (String aColor : matchingColor) {
-				TinaColor current = tinaColors.get(aColor);
-				brightnessSum += current.getBrightness();
-			}
-			//calculate the brightest of all brightnesses
-			int brightest = 0;
-			String brightestId = null;
-			for (String aColor : matchingColor) {
-				TinaColor current = tinaColors.get(aColor);
-				if(current.getBrightness()>brightest){
-					brightest = current.getBrightness();
-					brightestId = current.getColor();
+
+			//Order by brightness
+			Collections.sort(orderedTinaColors, new Comparator<TinaColor>() {
+				public int compare(TinaColor tc1, TinaColor tc2) {
+					return tc1.getBrightness() - tc2.getBrightness();
+				}
+			});
+			if("BRIGHTEST".equals(this.coloringMethod)) {
+				//calculate the brightest of all brightnesses
+				int brightest = 0;
+				String brightestId = null;
+				for (String aColor : matchingColor) {
+					TinaColor current = tinaColors.get(aColor);
+
+					if (current.getBrightness() >= brightest) {
+						brightest = current.getBrightness();
+						brightestId = current.getColor();
+					}
+				}
+				//int mean = brightnessSum / matchingColor.size();
+				//find the tina whose brightness value is closest to the mean and point this tina as the median
+				int brightnessDiff = 1000;
+				for (String aColor : matchingColor) {
+					TinaColor current = tinaColors.get(aColor);
+					if (current.getBrightness() > 0 && Math.abs(current.getBrightness() - brightest) < brightnessDiff) {
+						//medianId = current.getColor();
+						brightnessDiff = Math.abs(current.getBrightness() - brightest);
+					}
+				}
+
+				//now calculate the relative brightnesses
+				for (String aColor : matchingColor) {
+					TinaColor current = tinaColors.get(aColor);
+					if(tinaColors.get(brightestId)==null)
+						System.out.println("current = " + current);
+					current.setRelativeBrightness(calculateRelativeBrightness(current.getBrightness(), tinaColors.get(brightestId).getBrightness(), brightestId));
 				}
 			}
+			else if("AVERAGE".equals(this.coloringMethod)){
 
-			//@TODO the 'mean' should be replaced by the 'clearest' which is the one with the highest brightness value
-			//@TODO calculate the relative brightness relative to the brightest and NOT relative to the mean
+				//Calculate the reference color which is defined by the smallest brightness diff between the upper and lower color
+				String referenceColour = null;
+				int sumOfBrightnessDifs = 1000;
 
-			int mean = brightnessSum / matchingColor.size();
-			//find the tina whose brightness value is closest to the mean and point this tina as the median
-			int brightnessDiff = 1000;
-			String medianId = null;
-			for (String aColor : matchingColor) {
-				TinaColor current = tinaColors.get(aColor);
-				if (current.getBrightness() > 0 && Math.abs(current.getBrightness() - mean) < brightnessDiff) {
-					medianId = current.getColor();
-					brightnessDiff = Math.abs(current.getBrightness() - mean);
+				if(orderedTinaColors.size()<3) referenceColour = orderedTinaColors.get(0).getColor();
+				else {
+					for (int i = 1; i < orderedTinaColors.size() - 1; i++) {
+						int newSum = orderedTinaColors.get(i).brightness - orderedTinaColors.get(i - 1).brightness + orderedTinaColors.get(i + 1).brightness - orderedTinaColors.get(i).brightness;
+						if (newSum < sumOfBrightnessDifs) {
+							sumOfBrightnessDifs = newSum;
+							referenceColour = orderedTinaColors.get(i).getColor();
+						}
+					}
 				}
-			}
 
-			//now calculate the relative brightnesses
-			/*for (String aColor : matchingColor) {
-				TinaColor current = tinaColors.get(aColor);
-				current.setRelativeBrightness(calculateRelativeBrightness(current.getBrightness(), tinaColors.get(medianId).getBrightness(), medianId));
-			}*/
-			for (String aColor : matchingColor) {
-				TinaColor current = tinaColors.get(aColor);
-				current.setRelativeBrightness(calculateRelativeBrightness(current.getBrightness(), tinaColors.get(brightestId).getBrightness(), brightestId));
+				for (String aColor : matchingColor) {
+					TinaColor current = tinaColors.get(aColor);
+					current.setRelativeBrightness(calculateRelativeBrightness(current.getBrightness(), tinaColors.get(referenceColour).getBrightness(), referenceColour));
+					int test = current.getRelativeBrightness();
+					System.out.println("test = " + test);
+				}
 			}
 		}
 	}
+
+	/*private void orderTinaColors(){
+		// not yet sorted
+		List<TinaColor> orderedTinaColors = new ArrayList<TinaColor>(tinaColors.values());
+
+		Collections.sort(orderedTinaColors, new Comparator<TinaColor>() {
+
+			public int compare(TinaColor tc1, TinaColor tc2) {
+				return tc1.getBrightness() - tc2.getBrightness();
+			}
+		});
+
+
+
+		tinaColors = new HashMap<String, TinaColor>();
+		for (TinaColor orderedTinaColor : orderedTinaColors) {
+			tinaColors.put(orderedTinaColor.getColor(), orderedTinaColor);
+		}
+
+	}*/
 
 	private int getMatchSet(String color) {
 		int counter = 1;
@@ -324,18 +436,22 @@ public class SVGColoringWorker {
 		/*//default, if brighter then ref color => use a big brightness factor
 		int brightnessFactor = 75;
 		//if darker then ref color => use a little smaller brightness factor
+
 		if(Colour.isYellowOrGreen(referenceColor)) //@todo then add 'yellow class' else add 'blue' class
 			return referenceBrightness==0 ? 0 : ((currentBrightness - referenceBrightness)*brightnessFactor)/referenceBrightness;
 		else
 			return referenceBrightness==0 ? 0 : ((currentBrightness - referenceBrightness)*brightnessFactor)/referenceBrightness;*/
+		//int test = (100*(currentBrightness - referenceBrightness))/referenceBrightness;
+
+		//System.out.println("test = " + test);
 
 		return referenceBrightness == 0 ? 0 : (100 * (currentBrightness - referenceBrightness)) / referenceBrightness;
 	}
 
 	private void replaceSimpleColors() {
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(destfolder + name + "_all_grads_4.svg")));
-			String uri = destfolder + name + "_coloured_3.svg";
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(String.format("%s%s/%s%s",folder, gender, name, "_all_grads_4.svg"))));
+			String uri = String.format("%s%s/%s%s",folder, gender, name, "_coloured_3.svg");
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			stream.forEach(e -> {
 				try {
@@ -348,7 +464,17 @@ public class SVGColoringWorker {
 						writer.append(System.lineSeparator());
 						writer.append(e.replaceAll("fill=\"\\s*(#[0-9a-fA-F]{6}|none)", "fill=\"url(#" + gradientId + ")"));
 						writer.append(System.lineSeparator());
-					} else if (isPath(e) && e.matches(".*fill:\\s*#.*")) {
+					}
+					else if (isPath(e) && e.matches(".*stroke=\"#.*")) {
+						String simpleColor = getSimpleColor(e);
+						String gradientId = UUID.randomUUID().toString();
+						String simpleGradient = getSimpleGradient(gradientId, simpleColor);
+						writer.append(simpleGradient);
+						writer.append(System.lineSeparator());
+						writer.append(e.replaceAll("stroke=\"\\s*(#[0-9a-fA-F]{6})", "stroke=\"url(#" + gradientId + ")"));
+						writer.append(System.lineSeparator());
+					}
+					else if (isPath(e) && e.matches(".*fill:\\s*#.*")) {
 						String simpleColor = getSimpleColor(e);
 						String gradientId = UUID.randomUUID().toString();
 						String simpleGradient = getSimpleGradient(gradientId, simpleColor);
@@ -412,8 +538,8 @@ public class SVGColoringWorker {
 		try {
 			String[] gradients = new String[1];
 			int[] stopCounter = {0};
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(destfolder + name + "_final.svg")));
-			String uri = destfolder + name + "_all_grads_4.svg";
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(String.format("%s%s/%s%s",folder, gender, name, "_final.svg"))));
+			String uri = String.format("%s%s/%s%s",folder, gender, name, "_all_grads_4.svg");
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			stream.forEach(e -> {
 				try {
@@ -477,6 +603,24 @@ public class SVGColoringWorker {
 			colors.add(mat.group(1));
 		}
 		return colors;
+	}
+
+	private String findColor(String line) {
+		Pattern patt = Pattern.compile("#([0-9a-fA-F]{6})");
+		Matcher mat = patt.matcher(line);
+		if (mat.find()) {
+			return mat.group(1);
+		}
+		return null;
+	}
+
+	private double findOffset(String line) {
+		Pattern patt = Pattern.compile("offset=\"([0-9\\.e\\-\\+]+)\"");
+		Matcher mat = patt.matcher(line);
+		if (mat.find()) {
+			return Double.parseDouble(mat.group(1));
+		}
+		return -1;
 	}
 
 	private static class TinaColor {
@@ -555,5 +699,21 @@ public class SVGColoringWorker {
 		Colour.getBrightness("#FF0000");
 		Colour.getBrightness("#00FF00");
 		Colour.getBrightness("#0000FF");
+	}
+
+
+
+
+
+	public void cleanup(String folder, String gender, String name){
+		deleteFile(folder, gender, name, "_norgb_1.svg");
+		deleteFile(folder, gender, name, "_nostyle_2.svg");
+		deleteFile(folder, gender, name, "_coloured_3.svg");
+		deleteFile(folder, gender, name, "_all_grads_4.svg");
+	}
+
+	private void deleteFile(String folder, String gender, String name, String extension){
+		File aFile = new File(String.format("%s%s/%s%s",folder, gender, name, extension));
+		if(aFile!=null) aFile.delete();
 	}
 }
