@@ -1,0 +1,581 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"marg",
+				"margin-top"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"lo",
+				"login"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 342.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 398.0
+	},
+	"console":
+	{
+		"height": 118.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images"
+	],
+	"file_history":
+	[
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/README.md",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/scaleToPng.sh",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/cleanAdobeStuff.sh",
+		"/home/jefw/virtualsushi/backentina/target/classes/static/generated/2018_04_01_08_32_20/2_Noise_protection.svg",
+		"/home/jefw/virtualsushi/backentina/src/main/resources/static/assets/man/Noise_protection.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/man/Hand_skin_02.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Helmet_noise.svg",
+		"/home/jefw/virtualsushi/backentina/target/classes/static/generated/2018_04_01_08_32_20/Tony.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/change_hand_ids.sh",
+		"/home/jefw/virtualsushi/backentina/src/main/resources/static/assets/man/Helmet_noise.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Noise_protection.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/man/Hand_skin_01.svg",
+		"/home/jefw/virtualsushi/backentina/target/classes/static/generated/2018_03_31_07_25_30/999_Hand.svg",
+		"/home/jefw/virtualsushi/backentina/target/classes/static/generated/2018_03_31_07_25_30/Tony.svg",
+		"/home/jefw/virtualsushi/backentina/target/classes/static/generated/2018_03_31_07_25_30/0_Body.svg",
+		"/home/jefw/virtualsushi/backentina/target/classes/static/generated/2018_03_29_17_56_38/Tony.svg",
+		"/home/jefw/Documents/Drop/fabian.txt",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/change_colour_02.sh",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/change_colour_03.sh",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/change_colour_04.sh",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/change_colour_05.sh",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/change_colour_06.sh",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/body_parts_no_change_me/man/Body_skin_01.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/cleanAll.sh",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Body_Man_A1.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Body_skin_01.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Hand_skin_A1.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Hand_skin_01.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/man/Aprom.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/config.yml",
+		"/home/jefw/virtualsushi/backentina/target/classes/static/generated/2018_03_29_16_43_43/0_Body.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Body_coderage.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Body_Man_A1_NS.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/man/Body_Man_A1.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/man/Hand_skin_01.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/man/Dusk_mask.svg",
+		"/home/jefw/virtualsushi/backentina/src/main/resources/static/assets/man/Pants.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Dusk_mask.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/man/Gas_mask.svg",
+		"/home/jefw/virtualsushi/backentina/target/classes/static/generated/2018_03_29_13_46_20/1_Pants.svg",
+		"/home/jefw/virtualsushi/svgworker/www/svg.js",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/man/Tshirt_cleaned_NS.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/man/Body_Man_A1_cleaned_NS.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/man/Body_coderage_cleaned_NS.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/man/Aprom.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/Body_Woman_A1.svg",
+		"/home/jefw/virtualsushi/svgworker/www/Body_Woman_A1_cleaned.html",
+		"/home/jefw/virtualsushi/svgworker/www/dragon.html",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/Body_Woman_A1_cleaned_before_pathdata.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/source_images/Body_Man_A1.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/creation_process/cleaned_source_images/Body_Woman_A1_cleaned.svg",
+		"/home/jefw/virtualsushi/preventina/src/app/constructor/poster-preview/poster-preview.component.ts",
+		"/home/jefw/virtualsushi/svgworker/svg_created/Body_Woman_A1_cleaned_final.svg",
+		"/home/jefw/virtualsushi/svgworker/README.md",
+		"/home/jefw/Documents/Drop/insomnia_sitizens.json",
+		"/home/jefw/virtualsushi/prerender/README.md",
+		"/home/jefw/virtualsushi/imagetracerjava/README.md",
+		"/media/jefw/594A-ADC0/quiz/logos/andere-logos.txt",
+		"/home/jefw/Documents/virtualsushi/virtualsushi/email_templates/from-mail.html",
+		"/home/jefw/Documents/virtualsushi/virtualsushi/email_templates/general.html",
+		"/home/jefw/virtualsushi/sitizens_admin_david/src/app/admin/admin.routing.ts",
+		"/home/jefw/virtualsushi/DiReCT/src/main/java/be/virtualsushi/direct/Application.java",
+		"/home/jefw/Downloads/woman_skin_4.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/pictures/Clothes_woman/Clothes/SVG/Skin_01/Fluo_Tshirt_NH_01_woman.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/pictures/Woman/SVG/Woman-01.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/pictures/Clothes_woman/Clothes/SVG/Skin_01/Tshirt_01.svg",
+		"/home/jefw/virtualsushi/backentina/backentina_pdf/src/main/resources/assets/config.yml",
+		"/home/jefw/Documents/Drop/tshirt.svg",
+		"/home/jefw/virtualsushi/backentina/backentina_pdf/src/main/resources/assets/man_06.svg",
+		"/home/jefw/Documents/virtualsushi/preventina/pictures/Man/SVG/Body_man-01.svg",
+		"/home/jefw/virtualsushi/backentina/backentina_pdf/src/main/resources/assets/woman_skin_01.svg",
+		"/home/jefw/virtualsushi/backentina/backentina_pdf/src/main/resources/assets/woman_skin_03.svg",
+		"/home/jefw/virtualsushi/svgworker/config.yml",
+		"/home/jefw/Documents/virtualsushi/RAI/data/UserAccount.sql",
+		"/home/jefw/Documents/virtualsushi/preventina/pictures/Clothes_woman/Pants/SVG/Fluo_Pants.svg",
+		"/home/jefw/Documents/Drop/localhost-1513010396977.log",
+		"/home/jefw/virtualsushi/visit.hippo/storage/workspaces/default/workspace.xml",
+		"/home/jefw/virtualsushi/visit.hippo/storage/revision.log",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/arm_man_02.svg",
+		"/home/jefw/Documents/work/work.txt",
+		"/home/jefw/Documents/virtualsushi/visit.brussels/data_export/users.csv",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/arm_man_06.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/arm_man_05.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/arm_man_04.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/arm_man_03.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/arm_man_01.svg",
+		"/home/jefw/Documents/work/linuxCommands.txt",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_woman_01.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_woman_02.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_woman_03.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_woman_04.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_woman_05.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_woman_06.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_man_06.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_man_05.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_man_04.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_man_03.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/hand_man_02.svg",
+		"/home/jefw/virtualsushi/preventina/src/assets/gear-templates/man/hand_man_01.html",
+		"/home/jefw/virtualsushi/rai_hippo/hippo-customization/target/tomcat8x/webapps/site/themes/css/raivereniging.css",
+		"/home/jefw/Documents/work/web-passwords.txt",
+		"/home/jefw/Documents/work/NEW_VisitBrussels_REALM.txt",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/Fluo_Jacket_NH_01.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_created/Fluo_Jacket_NH_01_final.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/Fluo_Warmer_NH_01.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/Fluo_Warmer_NH_01_cleaned_units.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/Fluo_Warmer_NH_01_cleaned_absolute.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/Apron_NH_01.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_created/Fluo_no_sleeves_NH_01_final.svg",
+		"/etc/apache2/sites-enabled/000-default.conf",
+		"/home/jefw/Documents/work/work.csv",
+		"/home/jefw/Dropbox/transfer/insomnia/curls.txt",
+		"/home/jefw/Documents/virtualsushi/vad/cleanup_script/scripts.txt",
+		"/home/jefw/Documents/me/jef.html",
+		"/home/jefw/virtualsushi/preventina/src/assets/gear-templates/woman/tshirt.html",
+		"/home/jefw/virtualsushi/svgworker/svg_orig/Helmet.svg",
+		"/home/jefw/Documents/work/main_pass.txt",
+		"/home/jefw/Documents/work/work.json",
+		"/home/jefw/virtualsushi/rai_hippo/README.md",
+		"/home/jefw/virtualsushi/rai_hippo/hippo-customization/README.txt",
+		"/home/jefw/virtualsushi/visit.hippo/README.md",
+		"/home/jefw/Documents/work/work.xml",
+		"/home/jefw/Documents/virtualsushi/sitizens/logs/facebook_import_20171124.txt",
+		"/home/jefw/virtualsushi/svgworker/svg_created/Fluo_Tshirt_01_NH_woman_final.svg",
+		"/home/jefw/virtualsushi/svgworker/svg_created/Helmet_final.svg",
+		"/home/jefw/virtualsushi/preventina/src/assets/gear-templates/woman/helmet.html",
+		"/home/jefw/Documents/virtualsushi/sitizens/logs/update_schema.txt",
+		"/media/jefw/CODEMETER/web-passwords.txt"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 80.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"38.739",
+			"8288.899",
+			"noise",
+			"<linearGradient",
+			"fill\"#000000\"",
+			"path d",
+			"SVGID_",
+			"SVGID_5_",
+			"<svg",
+			"SVGID",
+			"\\wM",
+			"path d",
+			"\\wM",
+			"width",
+			"\"M\\d",
+			"\"0.3\"",
+			"\"-0.4\"",
+			"color_1",
+			"makeYellow",
+			"makeBlue",
+			"\"0.03\"",
+			"\"-0.04\"",
+			"switch",
+			"curl",
+			"id",
+			"amazon",
+			"sendgri",
+			"ftp.doo.bs",
+			"grep",
+			"sitizens",
+			"sitizens-front",
+			"SITIZENS",
+			"netfl",
+			"export",
+			"luca@",
+			"lander@",
+			"playst",
+			"to DONE",
+			"r2s",
+			"007099",
+			";\">",
+			"<center",
+			"580px",
+			"4A5B77",
+			"#45576A",
+			"hippotranslation",
+			"\"status\": \"[^\\n]*\",\\n",
+			"\"type\": \"[^\\n]*\",\\n",
+			"\"name_\\w\\w\": \"[^\\n]*\",\\n",
+			"\"description_\\w\\w\": \"[^\\n]*\",\\n",
+			"upwork",
+			"content",
+			"import",
+			"lan",
+			"delet",
+			"$\\n",
+			"\\]\\}.*$",
+			"\\], grant_type=\\[password\\], password=\\[",
+			"^.*\\[\\{username=\\[",
+			"grep",
+			" BE13 2300 7152 0039 BE31 2300 7173 5055 BE0452.687.122 Spreekuur: Alleen op afspraak\n* Bijkantoor Of Counsel Hekkestraat 18 2890 Sint-Amands burgerlijke venn. onder de vorm van een BVBA ( 0461161556)\n* * Bijkantoor Of Counsel Livien Van Der Looystraat 1 2890 Sint-Amands\n° Vennoten van de burgerlijke vennootschap M AHLA die de rechtsvorm van een Coöperatieve Vennootschap met Beperkte Aansprakelijkheid heeft aangenomen (0452.687.122)",
+			"o ",
+			"$\\n(\\w)",
+			"\\n",
+			"-",
+			"^- ",
+			"168.198",
+			"</g>$\\n",
+			"<g id.*$\\n",
+			"f.versteeg",
+			"versteeg",
+			"http://visitb",
+			"http://visitbrussels.be/bitc/mail/img_2015/[^\"]*",
+			"[^(L,)]$",
+			"[^L]$",
+			"</option>",
+			"^\\s*",
+			"^\\s*<option.*$\\n",
+			"!",
+			"hint",
+			"visitbrusselsinfo@gmail.com",
+			"1017",
+			"512",
+			"m512",
+			"-e",
+			"c508",
+			"m512",
+			"E-5",
+			"e-5",
+			"c355",
+			"E-",
+			"prism",
+			"\"\\n",
+			"^\\s*\"fr\": \"",
+			"\\n( \\w)",
+			",",
+			"\\s\\n",
+			"^((?!\"fr\").)*$",
+			"not",
+			"files",
+			"devol",
+			"morgen",
+			"exec",
+			"delete",
+			"grep",
+			"link",
+			"tp",
+			"modem",
+			"logo",
+			"mvn",
+			"amazon",
+			"freelancer",
+			"ssl",
+			"https",
+			"max_allowed_packet",
+			"link",
+			"date_start",
+			"date_end",
+			"\\d{16}",
+			"\\d{17}",
+			"1758418281071390",
+			"\"id\": (\\d+),\\n^\"level\": 1,\\n\"parent_id\": null,\\n\"en\": \"([^\"]+)\"",
+			"\"id\": (\\d+),\\n^\"level\": 1,\\n\"parent_id\": (\\d+),\\n\"en\": \"([^\"]+)\"",
+			"\"id\": (\\d+),\\n^\"level\": 2,\\n\"parent_id\": (\\d+),\\n\"en\": \"([^\"]+)\"",
+			"\"id\": (\\d+),\\n^\"level\": 3,\\n\"parent_id\": (\\d+),\\n\"en\": \"([^\"]+)\"",
+			"^\"fr.*$\\n",
+			"^\"nl.*$\\n",
+			"^\"tra.*$\\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"fill=\"#000000\"",
+			"path fill\"#000000\" d",
+			"SSVVGGIIDD_",
+			"SSVVGGIIDD",
+			"\"0.03\"",
+			"\"-0.04\"",
+			"\"0.3\"",
+			"\"-0.4\"",
+			"buurtpreventie",
+			"buurtpreventie-server",
+			"BUURTPREVENTIE",
+			"27659D",
+			"648px",
+			"004E6B",
+			"#007099",
+			"",
+			", ",
+			"",
+			" - ",
+			"",
+			"*****",
+			"\\n",
+			" $1",
+			" ",
+			"-",
+			"\\n\\n- ",
+			"",
+			"\\n",
+			"",
+			"$1",
+			"\\n",
+			"",
+			"$1\\t$2",
+			"$1\\t$3",
+			"$1\\t$3\\t\\t\\t$2",
+			"$1\\t$3\\t\\t$2",
+			"",
+			"\\t",
+			"$1;$2",
+			"",
+			";",
+			"",
+			",",
+			"\" style",
+			"style=\"color:#FFF;\" >$1",
+			"",
+			"\"$1\"$2",
+			"",
+			">\\n</div",
+			">\\n<div",
+			"isOpen",
+			"$1 - $2",
+			"",
+			"$1",
+			"",
+			"$1 ",
+			"$1",
+			"",
+			"0.0.0.0:",
+			"localhost:8080",
+			"127.0.0.1:8080",
+			"localhost",
+			"$2 ($1)",
+			"",
+			"ef:fieldsettag",
+			"<sv:node sv:name=\\\"page$1\\\">\n\t<sv:property sv:name=\\\"jcr:primaryType\\\" sv:type=\\\"Name\\\">\n\t\t<sv:value>eforms:page</sv:value>\n\t</sv:property>\n\t<sv:node sv:name=\\\"field$1\\\">",
+			"<sv:node sv:name=\\\"page$1\\\"><sv:property sv:name=\\\"jcr:primaryType\\\" sv:type=\\\"Name\\\"><sv:value>eforms:page</sv:value></sv:property><sv:node sv:name=\\\"field$1\\\">",
+			" \"end",
+			" \"start",
+			" \"doors",
+			" \"day",
+			"",
+			"\"$1\" ",
+			"",
+			"\"$1\" ",
+			"",
+			"\"$1\" ",
+			"firstName",
+			"lastName",
+			"{ \"name\"",
+			" \"name\"",
+			"",
+			"zip",
+			"\"",
+			"]",
+			"{",
+			"}",
+			"   ",
+			"$1\" ",
+			"\"",
+			"",
+			">es<",
+			">it<",
+			">es<",
+			">it<",
+			"",
+			"&gt;",
+			"rvportal",
+			"ef:fieldsettag",
+			"&gt;",
+			"<sv:node sv:name=\"page0\">\n        <sv:property sv:name=\"jcr:primaryType\" sv:type=\"Name\">\n          <sv:value>eforms:page</sv:value>\n        </sv:property>\n        <sv:node sv:name=\"field0\">",
+			"<sv:node sv:name=\"page$1\">\n        <sv:property sv:name=\"jcr:primaryType\" sv:type=\"Name\">\n          <sv:value>eforms:page</sv:value>\n        </sv:property>\n        <sv:node sv:name=\"field$1\">",
+			"eforms:",
+			"rvportal",
+			"",
+			"http://vervet.net7.be/cms/?1&path=/$1",
+			"$1",
+			"http://vervet.net7.be/cms/repository/http://vervet.net7.be/cms/?1&path=/",
+			"$1",
+			"http://vervet.net7.be/cms/repository/http://vervet.net7.be/cms/?1&path=/",
+			"http://vervet.net7.be/cms/repository/",
+			"",
+			"NPS (Nieuwe Psychoactieve Stoffen zoals 2CB, 4-FMP etc)",
+			"Niet teruggevonden",
+			"Niet van toepassing",
+			"Neuroleptica",
+			"Methadon - Subutex",
+			"Slaap- en Kalmeringsmiddelen",
+			"Ketamine",
+			"Gaming en internetgebruik",
+			"Drugs in het algemeen",
+			"Cocaïne en crack",
+			"Heroïne",
+			"Onbekend",
+			"GHB en GBL",
+			"Speed",
+			"Alcohol",
+			"Canabis"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "PREVENTINA-CREATION-PROCESS.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/virtualsushi/preventina/PREVENTINA.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 269.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

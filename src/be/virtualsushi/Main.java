@@ -28,13 +28,13 @@ public class Main {
 			File folder = new File(sourcefolder+"man");
 			String[] filenames = folder.list();
 			for (int i = 0; i < filenames.length; i++) {
-				if(filenames[i].endsWith("_NS.svg"))
+				if(filenames[i].endsWith("_cleaned.svg"))
 					doMain("man", filenames[i].substring(0, filenames[i].length()-4), reference_distance, coloringMethod);
 			}
 			folder = new File(sourcefolder+"woman");
 			filenames = folder.list();
 			for (int i = 0; i < filenames.length; i++) {
-				if(filenames[i].endsWith("_NS.svg"))
+				if(filenames[i].endsWith("_cleaned.svg"))
 					doMain("woman", filenames[i].substring(0, filenames[i].length()-4), reference_distance, coloringMethod);
 			}
 		}
@@ -75,7 +75,7 @@ public class Main {
 	private static void doMain(String gender, String name, int reference_distance, String coloringMethod){
 		SVGColoringWorker worker = new SVGColoringWorker(reference_distance, coloringMethod);
 		worker.start(sourcefolder, gender, name);
-		makeHtml(gender, name);
+		makeHtml(gender, name.substring(0, name.indexOf("_cleaned")));
 	}
 
 	private static void makeHtml(String gender, String name) {
@@ -109,7 +109,7 @@ public class Main {
 		try {
 			StringWriter sw = new StringWriter();
 			BufferedWriter writer = new BufferedWriter(sw);
-			String uri = String.format("%s%s/%s%s",sourcefolder, gender, name, "_final.svg");
+			String uri = String.format("%s%s/%s%s",sourcefolder, gender, name, ".svg");
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			boolean[] inSVG = {false};
 			stream.forEach(e -> {

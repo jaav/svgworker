@@ -6,6 +6,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -71,6 +73,8 @@ public class SVGColoringWorker {
 		//Replace simple colors by uni-color gradients
 		replaceSimpleColors();
 		reworkGradients();
+		replaceIDs();
+		cleanup();
 	}
 
 	private void replaceRGB() {
@@ -389,7 +393,6 @@ public class SVGColoringWorker {
 					TinaColor current = tinaColors.get(aColor);
 					current.setRelativeBrightness(calculateRelativeBrightness(current.getBrightness(), tinaColors.get(referenceColour).getBrightness(), referenceColour));
 					int test = current.getRelativeBrightness();
-					System.out.println("test = " + test);
 				}
 			}
 		}
@@ -428,10 +431,6 @@ public class SVGColoringWorker {
 	}
 
 	private int calculateRelativeBrightness(int currentBrightness, int referenceBrightness, String referenceColor) {
-		if (Colour.isGreen(referenceColor)) System.out.printf("Color %s is green\n", referenceColor);
-		if (Colour.isYellow(referenceColor)) System.out.printf("Color %s is yellow\n", referenceColor);
-		if (Colour.isYG(referenceColor)) System.out.printf("Color %s is yg\n", referenceColor);
-		if (Colour.isGC(referenceColor)) System.out.printf("Color %s is gc\n", referenceColor);
 
 		/*//default, if brighter then ref color => use a big brightness factor
 		int brightnessFactor = 75;
@@ -538,7 +537,7 @@ public class SVGColoringWorker {
 		try {
 			String[] gradients = new String[1];
 			int[] stopCounter = {0};
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(String.format("%s%s/%s%s",folder, gender, name, "_final.svg"))));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(String.format("%s%s/%s%s",folder, gender, name, "_all_grads_5.svg"))));
 			String uri = String.format("%s%s/%s%s",folder, gender, name, "_all_grads_4.svg");
 			Stream<String> stream = Files.lines(Paths.get(uri));
 			stream.forEach(e -> {
@@ -552,7 +551,7 @@ public class SVGColoringWorker {
 							if (currentColor != null) {
 								e = e.replace("<stop ", "<stop data-target=\"" + ((float)(currentColor.getRelativeBrightness()))/100 + "\" ");
 								if (stopCounter[0] == 0) {
-									writer.append(gradients[0].replaceAll("id=", "class=\"color" + currentColor.getMatchSet() + " \" id="));
+									writer.append(gradients[0].replaceAll("id=", "class=\"color" + currentColor.getMatchSet() + "\" id="));
 									writer.append(System.lineSeparator());
 								}
 							} else {
@@ -585,6 +584,96 @@ public class SVGColoringWorker {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void replaceIDs() {
+		Charset charset = StandardCharsets.UTF_8;
+		String uri = String.format("%s%s/%s%s",folder, gender, name, "_all_grads_5.svg");
+		String content = null;
+
+		try {
+			//Find all non-uuid ids and store them in a set
+			Pattern patt = Pattern.compile("id=\"([^\"]+)\"");
+			Set<String> ids = new HashSet<>();
+			Stream<String> stream = Files.lines(Paths.get(uri));
+			stream.forEach(e -> {
+				if (e.contains("<linearGradient ") || e.contains("<radialGradient ")) {
+					Matcher matcher = patt.matcher(e);
+					while (matcher.find()) {
+						String id = matcher.group(1);
+						if(id.length() < 36)
+							ids.add(id);
+					}
+				}
+			});
+
+			//Loop over the set and create a uuid for every id
+			Map<String, String> idMap = new HashMap<>();
+			for (String id : ids) {
+				idMap.put(id, UUID.randomUUID().toString());
+			}
+
+			//Replace all instances of "id" with its corresponding uuid
+			String shortName = name.substring(0, name.indexOf("_cleaned"));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(String.format("%s%s/%s%s",folder, gender, shortName, ".svg"))));
+			stream = Files.lines(Paths.get(uri));
+			stream.forEach(e -> {
+				try {
+					String tmp = null;
+					for (String id : idMap.keySet()) {
+						if(e.contains(String.format("id=\"%s\"", id))) {
+							tmp = e.replaceAll(String.format("id=\"%s\"", id), String.format("id=\"%s\"", idMap.get(id)));
+						}
+						else if(e.contains(String.format("url(#%s)", id))) {
+							tmp = e.replaceAll(String.format("url\\(#%s\\)", id), String.format("url\\(#%s\\)", idMap.get(id)));
+							writer.append(System.lineSeparator());
+						}
+					}
+					if(tmp!=null)
+						writer.append(tmp);
+					else
+						writer.append(e);
+					writer.append(System.lineSeparator());
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+			});
+			writer.flush();
+			writer.close();
+
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+		/*try {
+			content = new String(Files.readAllBytes(Paths.get(uri)), charset);
+
+
+			Pattern patt = Pattern.compile("id=([^\"]+)");
+			Matcher matcher = patt.matcher(content);
+			Set<String> ids = new HashSet<>();
+			while (matcher.find()) {
+				String id = matcher.group(1);
+				if(id.length() < 36)
+					ids.add(id);
+			}
+			Map<String, String> idMap = new HashMap<>();
+			for (String id : ids) {
+				idMap.put(id, UUID.randomUUID().toString());
+			}
+			for (String id : idMap.keySet()) {
+				content = content.replaceAll(id, idMap.get(id));
+			}
+			name = name.substring(0, name.indexOf("_cleaned"));
+			Files.write(Paths.get(String.format("%s%s/%s%s",folder, gender, name, ".svg")), content.getBytes(charset));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 	}
 
 	private Set<String> getMatchedSet(String aColor, List<Set<String>> matchingColors) {
@@ -684,12 +773,6 @@ public class SVGColoringWorker {
 		double distance4 = Colour.distanceBetweenColorsWithFormula(test1, test5, Colour.ColorDistanceFormula.ColorDistanceFormulaCIE94);
 		double distance5 = Colour.distanceBetweenColorsWithFormula(test1, test6, Colour.ColorDistanceFormula.ColorDistanceFormulaCIE94);
 		double distance6 = Colour.distanceBetweenColorsWithFormula(test1, test7, Colour.ColorDistanceFormula.ColorDistanceFormulaCIE94);
-		System.out.println("distance1 = " + distance1);
-		System.out.println("distance2 = " + distance2);
-		System.out.println("distance3 = " + distance3);
-		System.out.println("distance4 = " + distance4);
-		System.out.println("distance5 = " + distance5);
-		System.out.println("distance6 = " + distance6);
 	}
 
 	public void test() {
@@ -705,15 +788,17 @@ public class SVGColoringWorker {
 
 
 
-	public void cleanup(String folder, String gender, String name){
-		deleteFile(folder, gender, name, "_norgb_1.svg");
-		deleteFile(folder, gender, name, "_nostyle_2.svg");
-		deleteFile(folder, gender, name, "_coloured_3.svg");
-		deleteFile(folder, gender, name, "_all_grads_4.svg");
+	public void cleanup(){
+		deleteFile("_temp_1.svg");
+		deleteFile("_norgb_1.svg");
+		deleteFile("_nostyle_2.svg");
+		deleteFile("_coloured_3.svg");
+		deleteFile("_all_grads_4.svg");
+		deleteFile("_all_grads_5.svg");
 	}
 
-	private void deleteFile(String folder, String gender, String name, String extension){
-		File aFile = new File(String.format("%s%s/%s%s",folder, gender, name, extension));
+	private void deleteFile(String extension){
+		File aFile = new File(String.format("%s%s/%s%s",this.folder, this.gender, this.name, extension));
 		if(aFile!=null) aFile.delete();
 	}
 }

@@ -1,0 +1,44 @@
+full: true
+plugins:
+  - cleanupAttrs
+  - removeDoctype
+  - removeXMLProcInst
+  - removeComments
+  - removeMetadata
+  - removeTitle
+  - removeDesc
+  - removeUselessDefs
+  - removeEditorsNSData
+  - removeEmptyAttrs
+#  - removeHiddenElems
+#  - removeEmptyText
+#  - removeEmptyContainers
+#  - removeViewBox
+#  - cleanUpEnableBackground
+#  - convertStyleToAttrs
+#  - convertColors
+  - convertPathData
+#  - convertTransform
+#  - removeUnknownsAndDefaults
+#  - removeNonInheritableGroupAttrs
+#  - removeUselessStrokeAndFill
+  - removeUnusedNS
+#  - cleanupIDs
+#  - cleanupNumericValues
+  - moveElemsAttrsToGroup
+  - moveGroupAttrsToElems
+#  - collapseGroups
+  - removeRasterImages
+  - mergePaths
+#  - convertShapeToPath
+#  - sortAttrs
+#  - transformsWithOnePath
+#  - removeDimensions
+  - removeAttrs:
+      attrs:
+        - svg:enable-background
+        - svg:height
+        - svg:width
+        - svg:x
+        - svg:y
+        - svg:"xml:space"
